@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div align="center">
+        <h1>Product</h1>
+        <table border="1" cellpadding="5">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Img</th>
+                    <th>Name</th>
+                    <th>Reviews</th>
+                    <th>Images</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+            </tbody>
+        </table>
+    </div>
+    <script type="text/javascript">
+        const getProduct = async () => {
+            try {
+                let record = await fetch(`https://dummyjson.com/products`);
+                let product = await record.json();
+                let tbl = "";
+
+                product.products.map((p, index) => {
+                    let reviewsHtml = p.reviews.map(review => `
+                        <div>
+                            <strong>${review.reviewerName}</strong>: ${review.comment} (Rating: ${review.rating})
+                        </div>
+                    `).join('');
+
+                    tbl += `
+                        <tr>
+                            <td>${++index}</td>
+                            <td><img src="${p.thumbnail}" width="100"></td>
+                            <td>${p.title}</td>
+                            <td>${reviewsHtml}</td>
+                            <td>${p.images.map(img => `<img src="${img}" width="50">`).join('')}</td>
+                        </tr>
+                    `;
+                });
+
+                document.getElementById('tbody').innerHTML = tbl;
+            } catch (err) {
+                console.log(err);
+                return false;
+            }
+        }
+
+        getProduct();
+    </script>
+</body>
+</html>
