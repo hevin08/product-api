@@ -32,7 +32,7 @@
                 product.products.map((p, index) => {
                     let reviewsHtml = p.reviews.map(review => `
                         <div>
-                            <strong>${review.reviewerName}</strong>: ${review.comment} (Rating: ${review.rating})
+                            <b>${review.reviewerName}</b>: ${review.comment} (Rating: ${review.rating})
                         </div>
                     `).join('');
 
